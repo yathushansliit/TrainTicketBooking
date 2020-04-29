@@ -1,0 +1,54 @@
+<!--register html page-->
+
+<div class="container" ng-controller="userController">
+    <br>
+    <br>
+    <div class="col-lg-offset-1 col-lg-10">
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                Customer Registration 
+            </div>
+            <div class="panel-body">
+                <div class="col-lg-offset-3 col-lg-6 ">
+                    <form name="customerForm" ng-submit="addUser(customer)" novalidate >
+                        <div class="form-group">
+                            <label for="cname" class="control-label">Name :</label>
+                            <input type="text" id="cname" name="cname" class="form-control" placeholder="Enter Name"
+                                   ng-model="customer.name" ng-required="true">
+                            <span class="help-block"
+                                  ng-show="customerForm.cname.$dirty && (customerForm.cname.$invalid || customerForm.cname.$error.required)"> Please enter Name </span>
+                        </div>
+                        <div class="form-group">
+                            <label for="cphone" class="control-label">Phone Number :</label>
+                            <input type="number" id="cphone" name="cphone" class="form-control"
+                                   placeholder="Enter Phone Number" ng-model="customer.phone_number" ng-minlength="9"
+                                   ng-maxlength="9"
+                                   ng-required="true">
+                            <span class="help-block"
+                                  ng-show="customerForm.cphone.$dirty && (customerForm.cphone.$invalid || customerForm.cphone.$error.required || customerForm.cphone.$error.minlength || customerForm.cphone.$error.maxlength)"> Please enter valid Phone Number Ex. 771234567 </span>
+                        </div>
+                        <div class="form-group">
+                            <label for="cemail" class="control-label">Email :</label>
+                            <input type="email" id="cemail" name="cemail" class="form-control" placeholder="Enter Email"
+                                   ng-model="customer.email" ng-required="true">
+                            <span class="help-block"
+                                  ng-show="customerForm.cemail.$dirty && (customerForm.cemail.$invalid || customerForm.cemail.$error.required)"> Please enter Email </span>
+                        </div>
+                        <div class="form-group">
+                            <label for="cpassword" class="control-label">Password :</label>
+                            <input type="password" id="cpassword" name="cpassword" class="form-control"
+                                   placeholder="Enter Password" ng-model="customer.password" ng-minlength="3"
+                                   ng-required="true">
+                            <span class="help-block"
+                                  ng-show="customerForm.cpassword.$dirty && (customerForm.ppassword.$invalid || customerForm.ppassword.$error.required || customerForm.ppassword.$error.minlength)"> Please  enter valid password </span>
+                        </div>
+                        <br>
+                        <button type="submit" class="col-lg-offset-5 btn btn-lg btn-success"
+                                ng-disabled="customerForm.$invalid">Submit
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

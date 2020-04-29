@@ -1,0 +1,216 @@
+<!--ticket booking html page-->
+
+<div class="container" ng-controller="ticketController">
+    <div class="row">
+        <div class="col-lg-10">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Menu
+                </div>
+                <div class="panel-body">
+                    <table class="table table-bordered text-center">
+                        <thead>
+                        <tr>
+                            <th>Depature</th>
+                            <th>Arrival</th>
+                            <th>Ticket Class</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Select</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="ticket in tickets">
+                                <td> 
+                                        <select class="form-control col-lg-2" ng-model="depature" ng-options="place for place in places">
+                                        </select></td>
+                                    <td>
+                                           <select class="form-control col-lg-2" ng-model="arrival" ng-options="place for place in places" >
+                                           </select>
+                                    </td>
+                            <td>{{ticket.train_class}}</td>
+                            <td>{{ticket.price}}</td>
+                            <td><input type="number" class="form-control col-lg-2" ng-model="Qty"></td>
+                            <td>
+                                <button class="btn btn-success" ng-click="addItem(ticket.train_class,ticket.price,Qty,depature,arrival)">Add to
+                                    Cart
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Cart
+                </div>
+                <div class="panel-body">
+                    <table class="table table-bordered text-center">
+                        <thead>
+                        <tr>
+                            <th>Depature</th>
+                            <th>Arrival</th>
+                            <th>Ticket Class</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Remove</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="selectItem in selectItems">
+                            <td>{{selectItem.Arr}}</td>
+                            
+                            <td>{{selectItem.Dep}}</td>
+                            
+                            <td><input type="text" class="form-control col-lg-4" ng-model="selectItem.train_class" disabled>
+                            </td>
+                            <td><input type="number" class="form-control col-lg-4" ng-model="selectItem.price" disabled>
+                            </td>
+                            <td><input type="number" class="form-control col-lg-4" ng-model="selectItem.quantity"
+                                       disabled></td>
+                            <td>
+                                <button class="btn btn-danger" ng-click="removeItem($index)">remove</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <button class="btn btn-primary" ng-click="addList()">Add to Ticket List</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-10">
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    Ticket Booking
+                </div>
+                <div class="panel-body">
+                    <div class="col-lg-offset-1 col-lg-10">
+                        <br>
+                        <form name="customerForm" novalidate>
+                            <div class="form-group">
+                                <label for="cname" class="control-label">Name :</label>
+                                <input type="text" id="cname" name="cname" class="form-control" placeholder="Enter Name"
+                                       ng-model="customer.name" ng-required="true">
+                                <span class="help-block"
+                                      ng-show="customerForm.cname.$dirty && (customerForm.cname.$invalid || customerForm.cname.$error.required)"> Please enter Name </span>
+                            </div>
+                            <div class="form-group">
+                                <label for="cphone" class="control-label">Phone Number :</label>
+                                <input type="number" id="cphone" name="cphone" class="form-control"
+                                       placeholder="Enter Phone Number" ng-model="customer.phone_number"
+                                       ng-minlength="9"
+                                       ng-maxlength="9"
+                                       ng-required="true">
+                                <span class="help-block"
+                                      ng-show="customerForm.cphone.$dirty && (customerForm.cphone.$invalid || customerForm.cphone.$error.required || customerForm.cphone.$error.minlength || customerForm.cphone.$error.maxlength)"> Please enter valid Phone Number Ex. 771234567 </span>
+                            </div>
+                            <div class="form-group">
+                                <label for="cemail" class="control-label">Email :</label>
+                                <input type="email" id="cemail" name="cemail" class="form-control"
+                                       placeholder="Enter Email"
+                                       ng-model="customer.email" ng-required="true">
+                                <span class="help-block"
+                                      ng-show="customerForm.cemail.$dirty && (customerForm.cemail.$invalid || customerForm.cemail.$error.required)"> Please enter Email </span>
+                            </div>
+                            <div class="form-group">
+                                <label for="cTicketList" class="control-label">Ticket List :</label>
+                                <textarea id="cTicketList" ng-model="customer.ticketList" style="min-width: 100%" rows="8"
+                                          class="form-control" readonly ng-required="true"></textarea>
+                            </div>
+                            <div>
+                                <label for="cTotalAmount" class="control-label">Total Amount :</label>
+                                <input style="color: red" type="number" id="cTotalAmount" name="cTotalAmount" class="form-control"
+                                       ng-model="customer.totalAmount" ng-required="true" disabled>
+                            </div>
+                            <br>
+                            <br>
+                            <div style="width: 100%;">
+                                <div style="float:left; width: 45%">
+                                        <center><label class="control-label" style="color: green">Mobile Payment</label></center>
+                                        <br>
+                                        <br>
+                                        <div class="form-group">
+                                                <label for="pphone" class="control-label">Payment Phone Number :</label>
+                                                <input type="number" id="pphone" name="pphone" class="form-control"
+                                                       placeholder="Enter Payment Phone Number" ng-model="mobilepay.phone_number"
+                                                       ng-minlength="9"
+                                                       ng-maxlength="9"
+                                                       ng-required="true">
+                                                       <span class="help-block"
+                                                        ng-show="customerForm.pphone.$dirty && (customerForm.pphone.$invalid || customerForm.pphone.$error.required || customerForm.pphone.$error.minlength || customerForm.pphone.$error.maxlength)"> Please enter valid payment Phone Number Ex. 771234567 </span>
+                                        </div>
+                                        <button class="col-lg-offset-1 btn btn-lg btn-success"
+                                                ng-click="confirmMobileNumber(mobilepay)"
+                                                ng-disabled="customerForm.cname.$invalid || customerForm.pphone.$invalid || customerForm.cphone.$invalid || customerForm.cemail.$invalid || customerForm.cTotalAmount.$invalid ">
+                                                Confirm Number
+                                        </button>
+                                        <br>
+                                        <br>
+                                        <br>
+                                        <div class="form-group">
+                                                <label for="vcode" class="control-label">Verification Code :</label>
+                                                <input type="number" id="vcode" name="vcode" class="form-control"
+                                                       placeholder="Enter Verification Code" ng-model="mobilepay.V_Code"
+                                                       ng-minlength="4"
+                                                       ng-maxlength="4"
+                                                       ng-required="true">
+                                                <span class="help-block"
+                                                      ng-show="customerForm.vcode.$dirty && (customerForm.vcode.$invalid || customerForm.vcode.$error.required || customerForm.vcode.$error.minlength || customerForm.vcode.$error.maxlength)"> Please enter valid verification 4 digit code sent to your device.</span>
+                                        </div>
+                                        <!-- <br> -->
+                                        <!-- <br> -->
+                                        <button class="col-lg-offset-4 btn btn-lg btn-success"
+                                                ng-click="addBookingForMobile(customer,mobilepay)"
+                                                ng-disabled="isDisabled  || customerForm.vcode.$invalid || customerForm.vcode.$error.required || customerForm.vcode.$error.minlength || customerForm.vcode.$error.maxlength">
+                                                Pay
+                                        </button>
+                                </div>
+                                <div style="float:right; width: 45%">
+                                        <center><label class="control-label" style="color: green">Credit card Payment</label></center>
+                                        <br>
+                                        <br>
+                                        <div class="form-group">
+                                                <label for="chname" class="control-label">Card holder’s name :</label>
+                                                <input type="text" id="chname" name="chname" class="form-control" placeholder="Enter Name"
+                                                       ng-model="creditCard.chname" ng-required="true">
+                                                <span class="help-block"
+                                                      ng-show="customerForm.cname.$dirty && (customerForm.chname.$invalid || customerForm.chname.$error.required)"> Please enter card holders Name </span>
+                                            </div>
+                                        <div class="form-group">
+                                            <label for="cardNumber" class="control-label">Credit Card Number :</label>
+                                            <input type="number" id="cardNumber" name="cardNumber" class="form-control"
+                                                    placeholder="Enter Card Number" ng-model="creditCard.card_number"
+                                                    ng-minlength="16"
+                                                    ng-maxlength="16"
+                                                    ng-required="true">
+                                            <span class="help-block"
+                                                    ng-show="customerForm.cardNumber.$dirty && (customerForm.cardNumber.$invalid || customerForm.cardNumber.$error.required || customerForm.cardNumber.$error.minlength || customerForm.cardNumber.$error.maxlength)"> Please enter valid Credit Card Number  </span>
+                                        </div>    
+                                        <div class="form-group">
+                                            <label for="cardCVS" class="control-label">CVC number :<br>(3 digit no. at the back)</label>
+                                            <input type="number" id="cardCVS" name="cardCVS" class="form-control"
+                                                    placeholder="Enter CVC Number" ng-model="creditCard.CVS" ng-minlength="3"
+                                                    ng-maxlength="3"
+                                                    ng-required="true">
+                                            <span class="help-block"
+                                                    ng-show="customerForm.cardCVS.$dirty && (customerForm.cardCVS.$invalid || customerForm.cardCVS.$error.required || customerForm.cardCVS.$error.minlength || customerForm.cardCVS.$error.maxlength)"> Please enter valid CVS Number </span>
+                                        </div>
+                                        <!-- <br> -->
+                                        <button type="button" class="col-lg-offset-4 btn btn-lg btn-success"
+                                                ng-click="addBookingForCreditCardUsers(customer,creditCard)"
+                                                ng-disabled="customerForm.cname.$invalid || customerForm.cphone.$invalid || customerForm.cemail.$invalid || customerForm.cTotalAmount.$invalid 
+                                                            || customerForm.chname.$invalid || customerForm.cardNumber.$invalid || customerForm.cardCVS.$invalid ">
+                                                Pay
+                                        </button>
+                                </div>
+                             </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
